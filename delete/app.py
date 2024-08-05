@@ -15,7 +15,7 @@ def lambda_handler(event, context):
 
     try:
         with connection.cursor() as cursor:
-            sql = "DELETE FROM carros WHERE id=%s"
+            sql = "DELETE FROM f1_drivers WHERE id=%s"
             cursor.execute(sql, (id,))
         connection.commit()
         return {
