@@ -24,7 +24,7 @@ def lambda_handler(event, context):
             fields = ', '.join([f"{key}=%s" for key in body.keys()])
             values = list(body.values())
             values.append(id)
-            sql = f"UPDATE carros SET {fields} WHERE noSerie=%s"
+            sql = f"UPDATE f1_drivers SET {fields} WHERE id=%s"
             cursor.execute(sql, values)
         connection.commit()
         return {
