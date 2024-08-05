@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  drivers 
+
+  Sample SAM Template for drivers
+
+Globals:
+  Function:
+    Timeout: 120
+    MemorySize: 256
+    Runtime: python3.12
+    Architectures:
+      - x86_64
+
+
+Resources:
+
+  DriverApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: DriverApi
+      StageName: Prod
+      Cors:
+        AllowMethods: "'POST, GET'"
+        AllowHeaders: "'X-Forwarded-For,Content-Type,Content-Length,Accept,Accept-Encoding,ConnectionX-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+        MaxAge: "'600'"
+        AllowCredentials: false
+
+  GetAllFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getAll.app.lambda_handler
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DriverApi
+            Path: /get-drivers
+            Method: GET
+
+  CreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: create.app.lambda_handler
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DriverApi
+            Path: /create-driver
+            Method: POST
+
+
+  UpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: update.app.lambda_handler
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DriverApi
+            Path: /update-driver
+            Method: POST
+
+
+  DeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: delete.app.lambda_handler
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DriverApi
+            Path: /delete-driver
+            Method: POST
+
+
+
